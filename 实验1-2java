@@ -1,0 +1,119 @@
+import java.util.Scanner;
+
+abstract class Employee{
+    public String name;
+    public abstract void ComputeSalary();
+}
+
+class Manager extends Employee{
+    private double fixedSalary;
+    Manager(){
+        name = "";
+        fixedSalary = 0;
+    }
+    @Override
+    public void ComputeSalary(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入姓名：");
+        name = scanner.nextLine();
+        System.out.println("请输入固定工资：");
+        fixedSalary = scanner.nextDouble();
+        System.out.println("\n姓名："+name+'\t'+"职位：经理\t"+"应支付工资："+fixedSalary+"\n");
+        //scanner.close();
+    }
+}
+
+class Salesman extends Employee{
+    private double basicSalary;
+    private double commissions;
+    Salesman(){
+        name = "";
+        basicSalary = 0;
+        commissions = 0;
+    }
+    @Override
+    public void ComputeSalary() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入姓名：");
+        name = scanner.nextLine();
+        System.out.println("请输入基本工资：");
+        basicSalary = scanner.nextDouble();
+        System.out.println("请输入该月销售提成：");
+        commissions = scanner.nextDouble();
+        double finalSalary = basicSalary + commissions;
+        System.out.println("\n姓名："+name+'\t'+"职位：销售人员\t"+"应支付工资："+finalSalary+"\n");
+        //scanner.close();
+    }
+}
+
+class Worker extends Employee{
+    private int workingDays;
+    private double dailySalary;
+    Worker(){
+        name = "";
+        workingDays = 0;
+        dailySalary = 0;
+    }
+    @Override
+    public void ComputeSalary() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入姓名：");
+        name = scanner.nextLine();
+        System.out.println("请输入工作天数：");
+        workingDays = scanner.nextInt();
+        System.out.println("请输入日薪：");
+        dailySalary = scanner.nextDouble();
+        double finalSalary = workingDays*dailySalary;
+        System.out.println("\n姓名："+name+'\t'+"职位：销售人员\t"+"应支付工资："+finalSalary+"\n");
+        //scanner.close();
+    }
+}
+
+public class SalarySystem {
+    public static void calculator() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n\n请选择职位(1为经理，2为销售人员，3为工人)：");
+        int j = scanner.nextInt();
+        switch (j) {
+            case 1:{
+                Manager manager = new Manager();
+                manager.ComputeSalary();
+                break;
+            }
+            case 2:{
+                Salesman salesman = new Salesman();
+                salesman.ComputeSalary();
+                break;
+            }
+            case 3:{
+                Worker worker = new Worker();
+                worker.ComputeSalary();
+                break;
+            }
+            default:
+                break;
+        }
+        //scanner.close();
+    }
+
+    public static void main(String args[]) {
+        System.out.println("\n*******************欢迎进入工资支付程序**********************\n");
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            System.out.println("\n\n请输入要执行的操作：\n1、工资计算\n2、退出");
+            int i = scanner.nextInt();
+            if(i==1) {
+                calculator();
+            }
+            else{
+                if(i==2) {
+                    System.out.println("程序已退出");
+                    break;
+                }
+                else
+                    System.out.println("操作错误，请重新输入！");
+            }
+        }
+        scanner.close();
+    }
+}
