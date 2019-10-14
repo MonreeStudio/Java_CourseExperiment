@@ -1,67 +1,67 @@
+import javax.imageio.plugins.tiff.TIFFImageReadParam;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class ServerItem{
+public class ClientItem{
     public static void main(String[] args) {
-        ServerSocket server = null;
-        ServerThread thread;
-        Socket you = null;
-        while (true){
-            try {
-                server = new ServerSocket(4331);
+        Scanner scanner = new Scanner(System.in);
+        Socket clientSocket = null;
+        DataInputStream inData = null;
+        DataOutputStream outData = null;
+        Thread thread;
+        Read read = null;
+        try {
+            clientSocket = new Socket();
+            read = new Read();
+            thread = new Thread(read);
+            System.out.print("输入服务器的IP：");
+            String IP = scanner.nextLine();
+            System.out.print("输入端口号：");
+            int port = scanner.nextInt();
+            String enter = scanner.nextLine();
+            if (clientSocket.isConnected()){}
+            else {
+                InetAddress address = InetAddress.getByName(IP);
+                InetSocketAddress socketAddress = new InetSocketAddress(address,port);
+                clientSocket.connect(socketAddress);
+                InputStream in = clientSocket.getInputStream();
+                OutputStream out = clientSocket.getOutputStream();
+                inData = new DataInputStream(in);
+                outData = new DataOutputStream(out);
+                read.setDataInputStream(inData);
+                read.setDataOutputStream(outData);
+                thread.start();
             }
-            catch (IOException e1){
-                System.out.println("正在监听");
-            }
-            try {
-                System.out.println("正在等待客户");
-                you = server.accept();
-                System.out.println("客户的地址：" + you.getInetAddress());
-            }
-            catch (IOException e){
-                System.out.println(" " + e);
-            }
-            if (you!=null){
-                new ServerThread(you).start();
-            }
+        }
+        catch (Exception e){
+            System.out.println("服务器已断开" + e);
         }
     }
 }
-class ServerThread extends Thread{
-    Socket socket;
-    DataInputStream in =null;
-    DataOutputStream out = null;
-    ServerThread(Socket t){
-        socket = t;
-        try {
-            out = new DataOutputStream(socket.getOutputStream());
-            in = new DataInputStream(socket.getInputStream());
-        }
-        catch (IOException e){}
+
+class Read implements Runnable{
+    Scanner scanner = new Scanner(System.in);
+    DataInputStream in;
+    DataOutputStream out;
+    public void setDataInputStream(DataInputStream in){
+        this.in = in;
+    }
+    public void setDataOutputStream(DataOutputStream out){
+        this.out = out;
     }
     public void run(){
+        System.out.println("输入账单：");
+        String content = scanner.nextLine();
         try {
-            String item = in.readUTF();
-            Scanner scanner = new Scanner(item);
-            scanner.useDelimiter("[^0123456789.]+");
-            if (item.startsWith("账单")){
-                double sum = 0;
-                while (scanner.hasNext()){
-                    try {
-                        double price = scanner.nextDouble();
-                        sum = sum + price;
-                        System.out.println(price);
-                    }
-                    catch (InputMismatchException exp){
-                        String t = scanner.next();
-                    }
-                }
-                out.writeUTF("您的账单：");
-                out.writeUTF(item);
-                out.writeUTF("总额：" + sum + "元");
-            }
+            out.writeUTF("账单" + content);
+            String str = in.readUTF();
+            System.out.println(str);
+            str = in.readUTF();
+            System.out.println(str);
+            str = in.readUTF();
+            System.out.println(str);
         }
-        catch (Exception exp){}
+        catch (Exception e){}
     }
 }
