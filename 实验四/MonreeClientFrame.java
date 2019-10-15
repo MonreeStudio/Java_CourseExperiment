@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -90,6 +91,8 @@ public class MonreeClientFrame extends JFrame{
                                     }
                                 }
                                 catch (Exception e){}
+                                       JOptionPane.showMessageDialog(null,"消息没有接收方哦！");
+                                }
                                 finally {
                                     sayJta.setText("");
                                 }
