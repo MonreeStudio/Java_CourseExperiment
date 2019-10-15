@@ -38,7 +38,7 @@ class ServerThread implements Runnable{
             OutputStream out = clientSocket.getOutputStream();
             //向客户端输入连接成功的信息
             String done = sdf.format(new Date()) + "\n成功连接服务器...\n服务器IP：" +
-                    serverSocket.getInetAddress().getLocalHost().getHostAddress() + "，端口：6666\n客户端IP：" +
+                    serverSocket.getInetAddress().getLocalHost().getHostAddress() + "，端口：1908\n客户端IP：" +
                     IP + ",端口：" + port +"\n";
             out.write((done.getBytes()));
             updateOnlineList(out);
@@ -107,7 +107,7 @@ class ServerThread implements Runnable{
 
 public class MonreeServer{
     public static void main(String[] args) throws Exception{
-        ServerSocket serverSocket = new ServerSocket(6666);     //建立服务器
+        ServerSocket serverSocket = new ServerSocket(1908);     //建立服务器
         while (true){
             Socket clientSocket = serverSocket.accept();    //接收客户端Socket
             String IP = clientSocket.getInetAddress().getHostAddress();     //提取客户端IP
