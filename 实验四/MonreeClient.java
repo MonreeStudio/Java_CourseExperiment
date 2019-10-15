@@ -26,7 +26,7 @@ public class MonreeClient{
         mcFrame.setVisible(true);
         try {
             //连接服务器
-            clientSocket = new Socket(InetAddress.getLocalHost(),6666);
+            clientSocket = new Socket(InetAddress.getLocalHost(),1908);
             //获取输入输出流
             InputStream in = clientSocket.getInputStream();
             OutputStream out = clientSocket.getOutputStream();
@@ -94,7 +94,7 @@ public class MonreeClient{
         }
         catch (Exception e)
         {
-            mcFrame.chatJta.append("呃，服务器宕机了。\n");
+            mcFrame.chatJta.append("呃，服务器宕机了……\n");
             e.printStackTrace();
         }
     }
