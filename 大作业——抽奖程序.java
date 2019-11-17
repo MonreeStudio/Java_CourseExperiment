@@ -102,7 +102,7 @@ class LuckyDraw extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!enableDraw){
-                    if (list==null)
+                    if (list.size()==0)
                         JOptionPane.showMessageDialog(null, "未检测到名单！请先读取名单。");
                     else {
                         repeatToggle.setEnabled(false);
@@ -150,14 +150,15 @@ class LuckyDraw extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 enableDraw = false;
-                rstText.setText(rstText.getText()+' '+luckyName.getText());
                 if (list.size()>0) {
+                    rstText.setText(rstText.getText()+' '+luckyName.getText());
                     tipText.setText("请看结果！");
                     if (!repeatToggle.isSelected())
                         list.remove(luckyName.getText());
                 }
                 else {
                     tipText.setText("抽完了");
+                    luckyName.setText("所有人都被抽中了，别再点了");
                 }
                 countName.setText("总人数："+String.valueOf(list.size()));
                 startBtn.setText("开始");
